@@ -9,7 +9,7 @@ function InputAndButton({ onAdd }) {
   }
 
   function clickAddButton() {
-    if (inputValue !== "") {
+    if (inputValue.trim() !== "") {
       onAdd(inputValue);
       setInputValue("");
     }
@@ -23,7 +23,11 @@ function InputAndButton({ onAdd }) {
         onChange={handleInputChange}
         value={inputValue}
       />{" "}
-      <button className="add-button" onClick={clickAddButton}>
+      <button
+        className="add-button"
+        disabled={inputValue.trim().length < 1}
+        onClick={clickAddButton}
+      >
         Add
       </button>
     </div>
