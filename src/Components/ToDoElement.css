@@ -9,20 +9,15 @@
   background-color: lightblue;
   font-size: 1rem;
   color: black;
-  box-sizing: border-box;
+
   padding: 0.5rem;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0px 0px 10px 0px rgba(rgba(0, 0, 0, 0.15));
 }
 
 .to-do-checkbox {
   height: 1.5rem;
   width: 1.5rem;
   cursor: pointer;
-}
-
-.to-do-text {
-  font-size: 1rem;
-  color: black;
 }
 
 .to-do-delete-button {
@@ -32,7 +27,7 @@
   color: black;
   width: fit-content;
   padding: 0.5rem;
-  box-sizing: border-box;
+
   cursor: pointer;
   font-weight: 500;
 }

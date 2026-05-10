@@ -2,10 +2,8 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
-  height: auto;
   width: 400px;
   margin-top: 2rem;
-  outline: none;
 }
 
 .input-field {
@@ -15,6 +13,7 @@
   border-radius: 10px;
   font-size: 1rem;
   padding: 0 0.5rem;
+  outline: none;
 }
 
 .add-button {
