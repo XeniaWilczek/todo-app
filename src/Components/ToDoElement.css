@@ -2,16 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   height: 3rem;
   width: 100%;
-  border: none;
   border-radius: 10px;
   background-color: lightblue;
   font-size: 1rem;
   color: black;
-
   padding: 0.5rem;
-  box-shadow: 0px 0px 10px 0px rgba(rgba(0, 0, 0, 0.15));
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
 .to-do-checkbox {

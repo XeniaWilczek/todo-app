@@ -5,18 +5,19 @@ import { useState } from "react";
 
 function App() {
   const [todos, setTodos] = useState([]);
+
   function addNewTodo(newTodo) {
-    const todo = {
-      done: false,
-      text: newTodo,
-      id: Math.random(),
-    };
-    if (newTodo !== "") {
+    if (newTodo.trim() !== "") {
+      const todo = {
+        done: false,
+        text: newTodo,
+        id: crypto.randomUUID(),
+      };
       setTodos([...todos, todo]);
     }
   }
 
-  function clickCheckBox(todoId) {
+  function handleCheckboxClick(todoId) {
     setTodos(
       todos.map((todo) => {
         if (todo.id === todoId) {
@@ -27,7 +28,7 @@ function App() {
     );
   }
 
-  function deleteToDo(todoId) {
+  function handleDeleteClick(todoId) {
     setTodos(todos.filter((todo) => todo.id !== todoId));
   }
 
@@ -36,8 +37,8 @@ function App() {
       <InputAndButton onAdd={addNewTodo}></InputAndButton>
       <ToDoList
         todos={todos}
-        onCheck={clickCheckBox}
-        onDelete={deleteToDo}
+        onCheck={handleCheckboxClick}
+        onDelete={handleDeleteClick}
       ></ToDoList>
     </div>
   );
