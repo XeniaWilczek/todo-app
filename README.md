@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# To-Do-App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Projekt-Vorschau](public/images/previewTodoApp.png)
 
-## Available Scripts
+Eine Web-Applikation zur digitalen Organisation und Verwaltung täglicher Aufgaben. Die App wurde als Single-Page-Application mit React umgesetzt und ermöglicht es Benutzern, neue Aufgaben über ein interaktives Eingabefeld anzulegen, diese über Checkboxen als erledigt zu markieren oder vollständig aus der Liste zu entfernen.
 
-In the project directory, you can run:
+## Voraussetzungen
+Für die lokale Ausführung und das Kompilieren des Projekts werden folgende Komponenten benötigt:
+* Node.js (aktuelle LTS-Version)
+* Ein moderner Webbrowser
+* Git (optional, falls Sie das Repository klonen möchten)
 
-### `npm start`
+## Technologien
+* **HTML5:** Basis-Strukturierung der Einstiegsseite für das dynamische React-Root-Rendering im DOM-Knoten (`#root`).
+* **CSS3:** Modulares Styling zur visuellen Kennzeichnung von erledigten Aufgaben, zur Gewährleistung der Barrierefreiheit sowie zur Umsetzung eines vertikal scrollbaren Layouts.
+* **React:** Komponentenbasiertes UI-Rendering zur Aufteilung der Benutzeroberfläche in wiederverwendbare Bausteine unter Verwendung des strikten Entwicklungsmodus (`<React.StrictMode>`).
+* **JavaScript (ES6+):** Logiksteuerung, zustandsbasierte Array-Manipulationen (`.map()`, `.filter()`) und zentrales Zustandsmanagement via Hooks.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Technische Funktionsweise
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Die Anwendung basiert auf einer komponentenorientierten Client-Side-Architektur und wird über einen zentralisierten Datenfluss gesteuert:
 
-### `npm test`
+### Zentrales Zustandsmanagement (`App.js`)
+Die Hauptkomponente verwaltet den globalen Anwendungszustand für die gesamte Aufgabenliste (`todos`) zentral über den React-Hook `useState`. Die Zustandshistorie und die zuständigen Manipulationsfunktionen werden über Props abwärts an die Kindkomponenten delegiert. 
+* **Hinzufügen:** Verwendet den Spread-Operator (`[...todos, todo]`), um neue Aufgabenobjekte anzulegen, gekoppelt mit einer sicheren Identifikationsnummer via `crypto.randomUUID()`.
+* **Invertieren:** Nutzt eine `.map()`-Schleife, um beim Umschalten einer Checkbox gezielt eine Kopie des betroffenen To-Dos mit modifiziertem `done`-Status zu erzeugen.
+* **Entfernen:** Filtert gelöschte Einträge mittels `.filter()` präzise aus dem Array heraus.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Kontrollierte Eingabe und Validierung (`InputAndButton.js`)
+Das Eingabefeld wird als kontrollierte React-Komponente geführt. Ein lokaler Zustand (`inputValue`) spiegelt über den `onChange`-Handler zu jeder Zeit den exakten Inhalt des Textfeldes wider. Der Hinzufügen-Button besitzt eine native Validierungsprüfung (`disabled={inputValue.trim().length < 1}`). Er wird automatisch deaktiviert, wenn das Eingabefeld leer ist oder nur aus Leerzeichen besteht, um die Erstellung leerer Aufgaben auf Systemebene zu blockieren.
 
-### `npm run build`
+### Dynamische Listengenerierung und Barrierefreiheit (`ToDoList.js` & `ToDoElement.js`)
+* **Bedingtes Rendering:** Die Komponente `ToDoList` prüft die Länge des übergebenen Arrays. Wenn keine Aufgaben vorhanden sind, wird ein definierter Fallback-Text („keine ToDos“) ausgegeben. Bei vorhandenen Daten wird das Array über `.map()` iteriert und für jeden Eintrag eine `ToDoElement`-Komponente erzeugt, die über das `key`-Attribut stabil im Virtual DOM referenziert wird.
+* **Barrierefreiheit (Accessibility):** Innerhalb des `ToDoElement` ist das beschreibende Label über das `htmlFor`-Attribut strukturell fest mit der eindeutigen `id` der Checkbox verknüpft. Dadurch können Benutzer auch direkt auf den Aufgabentext klicken, um den Status umzuschalten. Erledigte Aufgaben erhalten den Klassenzusatz `.is-done`, welcher den Text visuell durchstreicht.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Layout und Design
+Das visuelle Design ist auf ein kompaktes und zentriertes Benutzererlebnis ausgelegt:
+* **Fullscreen-Rahmen:** Der Body-Bereich fixiert die Anwendung auf die exakten Maße des Browserfensters (`100vh`/`100vw`) und verwendet einen dunkelblauen Hintergrund (`darkblue`).
+* **Listenbegrenzung:** Die To-Do-Liste besitzt eine maximale Höhe von `800px`. Über die Eigenschaft `overflow-y: auto` wird sichergestellt, dass die Anwendung bei einer hohen Anzahl an Aufgaben innerhalb des definierten Bereichs vertikal scrollbar bleibt. Die Scrollbalken-Anzeige wird für ein minimalistisches Erscheinungsbild ausgeblendet.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation
+Klonen Sie das Projekt auf Ihren lokalen Computer und installieren Sie die erforderlichen Abhängigkeiten über den Paketmanager:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+# Repository klonen
+git clone https://github.com
 
-### `npm run eject`
+# In den Projektordner navigieren
+cd todo-app
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Abhängigkeiten installieren
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Nutzung
+1. Starten Sie den lokalen Entwicklungsserver mit folgendem Befehl:
+   ```bash
+   npm start
+   ```
+2. Öffnen Sie die in der Konsole angezeigte lokale URL (Standard: `http://localhost:3000`) in Ihrem Webbrowser.
+3. Nutzen Sie das interaktive Eingabefeld, um neue tägliche Aufgaben zu erfassen und der Liste hinzuzufügen.
+4. Markieren Sie erledigte Einträge flexibel über die integrierten Checkboxen oder den Aufgabentext, um den Status visuell anzupassen.
+5. Entfernen Sie Aufgaben bei Bedarf über die Schaltfläche „Löschen“ vollständig aus der Übersicht.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Deployment
+Die Anwendung kann für die Veröffentlichung gebaut und statisch gehostet werden:
+1. Erzeugen Sie die produktionsbereiten Dateien im `build`-Ordner:
+   ```bash
+   npm run build
+   ```
+2. Der Inhalt dieses Ordners kann anschließend direkt über Plattformen wie GitHub Pages, Vercel oder Netlify live geschaltet werden.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Mitwirken
+Da dies ein persönliches Projekt oder Portfolio-Projekt ist, werden aktuell keine Pull Requests oder externen Code-Beiträge entgegengenommen. Feedback oder Fragen können Sie mir jedoch gerne per E-Mail senden.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Lizenz
+Dieses Projekt wurde von Xenia Wilczek erstellt. Alle Rechte an Code und Design vorbehalten (All Rights Reserved).
